@@ -10,8 +10,8 @@
             </div>
             <div class="card-body">
                 <?php
-                    $invoiceFields = ['customer_name','customer_email','customer_mobile','company_name','invoice_number','invoice_date'];
-                    $invoiceDataFields = ['product_name','unit','quantity','unit_price','row_sub_total'];
+                   $invoiceFields = ['customer_name','customer_email','customer_mobile','company_name','invoice_number','invoice_date'];
+                   $invoiceDataFields = ['product_name','unit','quantity','unit_price','row_sub_total'];
                 ?>
 
                 <form action="{{ route('invoices.store') }}" method="post">

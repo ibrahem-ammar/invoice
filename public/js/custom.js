@@ -96,21 +96,15 @@ $(document).ready(function(){
             "<button type='button' class='btn btn-danger btn-sm btn_delete'>"+
             "<i class='fa fa-minus'></i></button></td><td>" +
             "<input type='text' name='product_name["+ numberIncr +"]' id='product_name' class='product_name form-control'>" +
-            "@error('product_name') <span class='help-block text-danger'>{{ $massage }}</span> @enderror</td>" +
-            "<td>" +
-            "<select name='unit["+ numberIncr +"]' id='unit' class='unit form-control'>" +
+            "</td><td><select name='unit["+ numberIncr +"]' id='unit' class='unit form-control'>" +
             "<option></option><option value='piece'>piece</option>" +
-            "<option value='g'>gram</option><option value='kg'>kilo gram</option>" +
-            "</select>@error('unit') <span class='help-block text-danger'>{{ $massage }}</span> @enderror" +
-            "</td><td>" +
+            "<option value='g'>gram</option><option value='kg'>" +
+            "kilo gram</option></select></td><td>" +
             "<input type='text' name='quantity["+ numberIncr +"]' id='quantity' class='quantity form-control'>" +
-            "@error('quantity') <span class='help-block text-danger'>{{ $massage }}</span> @enderror" +
             "</td><td>" +
             "<input type='text' name='unit_price["+ numberIncr +"]' id='unit_price' class='unit_price form-control'>" +
-            "@error('unit_price') <span class='help-block text-danger'>{{ $massage }}</span> @enderror" +
             "</td><td>" +
             "<input type='text' name='row_sub_total["+ numberIncr +"]' id='row_sub_total' readonly class='row_sub_total form-control'>" +
-            "@error('row_sub_total') <span class='help-block text-danger'>{{ $massage }}</span> @enderror" +
             "</td></tr>"
             ));
     });

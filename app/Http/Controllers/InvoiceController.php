@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Mail\SendInvoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use PDF;
 
 class InvoiceController extends Controller
@@ -11,7 +14,7 @@ class InvoiceController extends Controller
 
     public function index()
     {
-        $invoices = Invoice::paginate();
+        $invoices = Invoice::orderBy('id','DESC')->paginate();
         return view('invoice.index',compact('invoices'));
     }
 
@@ -67,20 +70,6 @@ class InvoiceController extends Controller
             ]);
         }
     }
-
-    public function print(Invoice $invoice)
-    {
-        return view('invoice.print',compact('invoice'));
-    }
-
-    public function pdf(Invoice $invoice)
-    {
-        $data = $invoice->toArray();
-        $data['details'] = $invoice->details->toArray();
-		$pdf = PDF::loadView('invoice.pdf', $data);
-		return $pdf->stream($invoice->invoice_number . '.pdf');
-    }
-
 
     public function show(Invoice $invoice)
     {
@@ -156,5 +145,39 @@ class InvoiceController extends Controller
                 'alert' => 'danger'
             ]);
         }
+    }
+
+    public function print(Invoice $invoice)
+    {
+        return view('invoice.print',compact('invoice'));
+    }
+
+    public function pdf(Invoice $invoice)
+    {
+        $data = $invoice->toArray();
+        $data['details'] = $invoice->details->toArray();
+
+		$pdf = PDF::loadView('invoice.pdf', $data);
+
+        if (Route::currentRouteName() == 'invoices.pdf') {
+            return $pdf->stream($invoice->invoice_number . '.pdf');
+        } else {
+            $pdf->save('invoices/'.$invoice->invoice_number.'.pdf');
+            return 'invoices/'.$invoice->invoice_number.'.pdf';
+        }
+
+    }
+
+    public function email(Invoice $invoice)
+    {
+        // dd($invoice->id);
+        $this->pdf($invoice);
+
+        Mail::to($invoice->customer_email)->locale(config('app.locale'))->send(new SendInvoice($invoice));
+        // return view('invoice.email');
+        return redirect()->route('invoices.index')->with([
+            'massage' => 'email send successfully',
+            'alert' => 'success'
+        ]);
     }
 }

@@ -13,7 +13,7 @@
             margin: auto;
             padding: 30px;
             border: 1px solid #eee;
-            font-size: 16px;
+            font-size: 9px;
             line-height: 24px;
             font-family: 'XBRiyaz',sans-serif;
             color: #555;
@@ -30,16 +30,13 @@
             vertical-align: top;
         }
 
-        .invoice-box table tr td:nth-child(2) {
-            text-align: right;
-        }
 
         .invoice-box table tr.top table td {
             padding-bottom: 20px;
         }
 
         .invoice-box table tr.top table td.title {
-            font-size: 45px;
+            font-size: 30px;
             line-height: 45px;
             color: #333;
         }
@@ -106,10 +103,10 @@
 </head>
 
 <body>
-    <div class="invoice-box">
+    <div class="invoice-box {{ config('app.locale') == 'ar' ? 'rtl' : '' }}">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="6">
                     <table>
                         <tr>
                             <td class="title">
@@ -117,9 +114,14 @@
                             </td>
 
                             <td>
-                                Invoice #: 123<br>
-                                Created: January 1, 2015<br>
-                                Due: February 1, 2015
+                                Invoice #: {{ $invoice_number }}<br>
+                                Created: {{ $invoice_date }}<br>
+                                Due: {{ Carbon\Carbon::now()->format('Y-m-d') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center">
+                                <h2>title</h2>
                             </td>
                         </tr>
                     </table>
@@ -127,19 +129,21 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="6">
                     <table>
                         <tr>
                             <td>
-                                Sparksuite, Inc.<br>
-                                12345 Sunny Road<br>
-                                Sunnyville, CA 12345
+                                <h2>seller</h2>
+                                name<br>
+                                <span dir="ltr">phone</span><br>
+                                vat<br>
+                                address<br>
                             </td>
-
                             <td>
-                                Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com
+                                <h2>buyer</h2>
+                                {{$customer_name}}<br>
+                                {{$customer_email}}<br>
+                                {{$customer_mobile}}<br>
                             </td>
                         </tr>
                     </table>
@@ -147,71 +151,54 @@
             </tr>
 
             <tr class="heading">
-                <td>
-                    Payment Method
-                </td>
-
-                <td>
-                    Check #
-                </td>
+                <th></th>
+                <th>@lang('site.product_name')</th>
+                <th>@lang('site.unit')</th>
+                <th>@lang('site.quantity')</th>
+                <th>@lang('site.unit_price')</th>
+                <th>@lang('site.row_sub_total')</th>
             </tr>
 
-            <tr class="details">
-                <td>
-                    Check
-                </td>
-
-                <td>
-                    1000
-                </td>
-            </tr>
-
-            <tr class="heading">
-                <td>
-                    Item
-                </td>
-
-                <td>
-                    Price
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    Website design
-                </td>
-
-                <td>
-                    $300.00
-                </td>
-            </tr>
-
-            <tr class="item">
-                <td>
-                    Hosting (3 months)
-                </td>
-
-                <td>
-                    $75.00
-                </td>
-            </tr>
-
-            <tr class="item last">
-                <td>
-                    Domain name (1 year)
-                </td>
-
-                <td>
-                    $10.00
-                </td>
-            </tr>
+            @foreach ($details as $detail)
+                <tr class="item {{ $loop->last ? 'last' : '' }}">
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$detail['product_name']}}</td>
+                    <td>{{$detail['unit']}}</td>
+                    <td>{{$detail['quantity']}}</td>
+                    <td>{{$detail['unit_price']}}</td>
+                    <td>{{$detail['row_sub_total']}}</td>
+                </tr>
+            @endforeach
 
             <tr class="total">
-                <td></td>
-
-                <td>
-                   Total: $385.00
-                </td>
+                <td colspan="4"></td>
+                <td>sub total</td>
+                <td>{{$sub_total}}</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4"></td>
+                <td>discount type</td>
+                <td>{{$discount_type}}</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4"></td>
+                <td>discount value</td>
+                <td>{{$discount_value}}</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4"></td>
+                <td>vat value</td>
+                <td>{{$vat_value}}</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4"></td>
+                <td>shipping</td>
+                <td>{{$shipping}}</td>
+            </tr>
+            <tr class="total">
+                <td colspan="4"></td>
+                <td>total due</td>
+                <td>{{$total_due}}</td>
             </tr>
         </table>
     </div>

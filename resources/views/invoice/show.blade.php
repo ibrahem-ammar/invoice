@@ -95,7 +95,7 @@
                     <div class="col-12 text-center">
                         <a href="{{ route('invoices.print', ['invoice'=>$invoice->id]) }}" class="btn btn-primary btn-sm ml-auto"><i class="fa fa-print mr-1"></i>print</a>
                         <a href="{{ route('invoices.pdf', ['invoice'=>$invoice->id]) }}" class="btn btn-secondary btn-sm ml-auto"><i class="fa fa-file-pdf mr-1"></i>export to pdf</a>
-                        <a href="#" class="btn btn-success btn-sm ml-auto"><i class="fa fa-envelope mr-1"></i>send to email</a>
+                        <a href="{{ route('invoices.email', ['invoice'=>$invoice->id]) }}" class="btn btn-success btn-sm ml-auto"><i class="fa fa-envelope mr-1"></i>send to email</a>
                     </div>
                 </div>
             </div>

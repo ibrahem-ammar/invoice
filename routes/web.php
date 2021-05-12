@@ -13,12 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('invoice.index');
-});
+Route::get('/','InvoiceController@index');
 
 Route::get('invoices/{invoice}/print','InvoiceController@print')->name('invoices.print');
 Route::get('invoices/{invoice}/pdf','InvoiceController@pdf')->name('invoices.pdf');
+Route::get('invoices/{invoice}/email','InvoiceController@email')->name('invoices.email');
 
 Route::resource('invoices', 'InvoiceController');
 
